@@ -17,6 +17,8 @@ import Data.Time
 import Data.Text (Text)
 import qualified Data.Text as T
 
+import System.Random
+
 import Network.HTTP.Client (Manager)
 
 
@@ -90,15 +92,20 @@ cloudIO m = do
 
 -- | Retry a 'Cloud' action multiple times before failing for good.
 --
--- TODO:
---  - Make the retry count configurable
---  - Increase backoff after each failure
---  - Add jitter to the backoff
+-- TODO: Make the retry count configurable
 retry :: Cloud a -> Cloud a
-retry = go 5
+retry = go 0
   where
+    -- Hardcoded for the time being. The last delay is ~32 seconds. Total about
+    -- 60 seconds.
+    maxRetries = 5
+
+    -- Exponential backoff with a bit of jitter. As per Google recommendation.
+    randomDelay i = cloudIO $ do
+        jitter <- getStdRandom (randomR (0,500000))
+        threadDelay $ jitter + 1000000 * (floor $ (2 :: Float) ** fromIntegral i)
+
     go :: Int -> Cloud a -> Cloud a
-    go 0 _ = throwError $ UnknownError "retry: Too many retries"
-    go i m = m <|> do
-        liftIO $ threadDelay 1000000
-        go (i - 1) m
+    go i m
+      | i > maxRetries = throwError $ UnknownError "retry: Too many retries"
+      | otherwise = m <|> (randomDelay i >> go (i + 1) m)
