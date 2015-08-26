@@ -4,29 +4,22 @@
 module Google.Cloud.Internal.Token where
 
 
+import Control.Applicative
 import Control.Concurrent.STM
 import Control.Monad.Reader
-import Control.Monad.Except
 
 import Data.Text (Text)
 import Data.Text.Encoding
 import Data.Monoid
 import Data.Time
-import Data.Aeson
-import Data.Scientific
-import qualified Data.HashMap.Strict as HMS
 
 import Network.HTTP.Types.Header
 
 import Google.Cloud.Internal.Types
-import Google.Cloud.Internal.HTTP
-import Google.Cloud.Internal.Metadata
+import Google.Cloud.Compute.Metadata
 
+import Prelude
 
-
-tokenUrl :: String
-tokenUrl = metadataServer <>
-    "/computeMetadata/v1/instance/service-accounts/default/token"
 
 
 -- | Fetch the access token for the default service account from the local
@@ -34,18 +27,7 @@ tokenUrl = metadataServer <>
 -- cloud and the instance has a services account attached to it.
 
 defaultMetadataToken :: Cloud Token
-defaultMetadataToken = do
-  res <- getJSON tokenUrl [("Metadata-Flavor","Google")]
-  case res of
-      (Object o) -> case (HMS.lookup "access_token" o, HMS.lookup "expires_in" o) of
-          (Just (String value), Just (Number expiresIn)) -> do
-              case toBoundedInteger expiresIn :: Maybe Int of
-                  Nothing -> throwError $ UnknownError "fetchToken: Bad expiration time"
-                  Just i -> do
-                      now <- cloudIO $ getCurrentTime
-                      return $ Token (addUTCTime (fromIntegral i) now) value
-          _ -> throwError $ UnknownError "fetchToken: Could not decode response"
-      _ -> throwError $ UnknownError "fetchToken: Bad resposnse"
+defaultMetadataToken = serviceAccountToken "default"
 
 
 

@@ -1,4 +1,10 @@
-module Google.Cloud where
+module Google.Cloud
+    ( Handle
+    , createHandle, mkHandle
+
+    , Cloud
+    , evalCloud
+    ) where
 
 
 import Control.Concurrent.STM

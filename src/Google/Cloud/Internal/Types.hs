@@ -4,6 +4,7 @@
 module Google.Cloud.Internal.Types where
 
 
+import Control.Applicative
 import Control.Exception
 import Control.Concurrent
 import Control.Concurrent.STM
@@ -20,6 +21,8 @@ import qualified Data.Text as T
 import System.Random
 
 import Network.HTTP.Client (Manager)
+
+import Prelude
 
 
 
