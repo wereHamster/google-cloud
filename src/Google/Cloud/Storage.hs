@@ -5,10 +5,13 @@ module Google.Cloud.Storage where
 
 import Control.Monad
 
-import Network.HTTP.Types (Header)
+import Data.Text (Text)
+import Data.Text.Encoding (encodeUtf8)
+import Data.Aeson (FromJSON)
+import Network.HTTP.Types (Header, encodePath)
 import Data.ByteString.Lazy (ByteString)
-import Data.Monoid
 
+import qualified Data.ByteString as BS
 import qualified Data.ByteString.Lazy as BSL
 import qualified Data.ByteString.Char8 as BSC8
 
@@ -16,10 +19,13 @@ import Google.Cloud.Internal.Types
 import Google.Cloud.Internal.HTTP
 import Google.Cloud.Internal.Token
 
+-- | See about fields
+-- "https://cloud.google.com/storage/docs/json_api/v1/how-tos/performance#partial-response"
+type Fields = BS.ByteString
 
-newtype Bucket = Bucket { unBucket :: String }
+newtype Bucket = Bucket { unBucket :: Text }
 
-newtype Name = Name { unName :: String }
+newtype Name = Name { unName :: Text }
 
 
 -- | Upload a 'ByteString' to a 'Bucket'. This is the simplest function
@@ -30,9 +36,12 @@ uploadMedia bucket name body header = do
     void $ post url (contentLength : authH : header) body
   where
     url =
-        "https://www.googleapis.com/upload/storage/v1/b/" <> unBucket bucket <>
-        "/o?uploadType=media&name=" <>
-        unName name
+        encodePath
+            [ "https://www.googleapis.com/upload/storage/v1/b/"
+            , unBucket bucket
+            , "/o"]
+            [ ("uploadType", Just "media")
+            , ("name", Just (encodeUtf8 (unName name)))]
     contentLength = ("Content-Length", BSC8.pack (show (BSL.length body)))
 
 
@@ -43,8 +52,25 @@ getMedia bucket name header = do
     authH <- authorizationHeader
     get url (authH : header)
   where
-    url = storageUrl <> "b/" <> unBucket bucket <> "/o/" <> unName name <> "?alt=media"
+    url =
+        encodePath
+            [storageUrl, "b/", unBucket bucket, "/o/", unName name]
+            [("alt", Just "media")]
 
 
-storageUrl :: String
+-- | Retrieves a list of objects matching the criteria
+-- (see "https://cloud.google.com/storage/docs/json_api/v1/objects/list")
+list
+    :: FromJSON a
+    => Bucket -> Maybe BS.ByteString -> Maybe Fields -> Cloud a
+list bucket prefix fields = do
+    authH <- authorizationHeader
+    getJSON url [authH]
+  where
+    url =
+        encodePath
+            [storageUrl, "b/", unBucket bucket, "/o"]
+            [("prefix", prefix), ("fields", fields)]
+
+storageUrl :: Text
 storageUrl = "https://www.googleapis.com/storage/v1/"

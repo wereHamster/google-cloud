@@ -5,7 +5,6 @@ module Google.Cloud.Internal.HTTP where
 import Control.Monad.Reader
 import Control.Monad.Except
 
-import Data.ByteString.Lazy (ByteString)
 
 import Data.Aeson
 
@@ -13,6 +12,11 @@ import Network.HTTP.Types.Header
 import Network.HTTP.Client
 
 import Google.Cloud.Internal.Types
+
+import Data.ByteString.Lazy (ByteString)
+import Blaze.ByteString.Builder (Builder, toByteString)
+  
+import qualified Data.ByteString.Char8 as BSC8
 
 
 
@@ -24,10 +28,10 @@ runRequest req = do
         return $ responseBody res
 
 
-post :: String -> RequestHeaders -> ByteString -> Cloud ByteString
+post :: Builder -> RequestHeaders -> ByteString -> Cloud ByteString
 post url headers body = do
     req <- cloudIO $ do
-        req <- parseUrl url
+        req <- parseUrl (builderToString url)
         return $ req
             { method         = "POST"
             , requestHeaders = headers
@@ -37,10 +41,10 @@ post url headers body = do
     runRequest req
 
 
-get :: String -> RequestHeaders -> Cloud ByteString
+get :: Builder -> RequestHeaders -> Cloud ByteString
 get url headers = do
     req <- cloudIO $ do
-        req <- parseUrl url
+        req <- parseUrl (builderToString url)
         return $ req
             { method         = "GET"
             , requestHeaders = headers
@@ -49,9 +53,13 @@ get url headers = do
     runRequest req
 
 
-getJSON :: (FromJSON a) => String -> RequestHeaders -> Cloud a
+getJSON :: (FromJSON a) => Builder -> RequestHeaders -> Cloud a
 getJSON url headers = do
     body <- get url headers
     case eitherDecode body of
         Left e -> throwError $ DecodeError e
         Right r -> return r
+
+
+builderToString :: Builder -> String
+builderToString = BSC8.unpack . toByteString

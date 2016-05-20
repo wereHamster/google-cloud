@@ -4,7 +4,6 @@
 module Google.Cloud.Internal.Types where
 
 
-import Control.Applicative
 import Control.Exception
 import Control.Concurrent
 import Control.Concurrent.STM
