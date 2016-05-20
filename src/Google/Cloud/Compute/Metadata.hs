@@ -115,7 +115,7 @@ zone = Zone . decodeUtf8 <$> readKey (instanceMetadataPath ++ "/zone")
 -- | Fetch an access token for the given service account.
 serviceAccountToken :: String -> Cloud Token
 serviceAccountToken acc = do
-    res <- readJSON (instanceMetadataPath ++ "/service-account/" ++ acc ++ "/token")
+    res <- readJSON (instanceMetadataPath ++ "/service-accounts/" ++ acc ++ "/token")
     case res of
         (Object o) -> case (HMS.lookup "access_token" o, HMS.lookup "expires_in" o) of
             (Just (String value), Just (Number expiresIn)) -> do
