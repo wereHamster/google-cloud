@@ -6,10 +6,10 @@ module Google.Cloud.Storage where
 import Control.Monad
 
 import Network.HTTP.Types (Header)
-import Data.ByteString (ByteString)
+import Data.ByteString.Lazy (ByteString)
 import Data.Monoid
 
-import qualified Data.ByteString as BS
+import qualified Data.ByteString.Lazy as BSL
 import qualified Data.ByteString.Char8 as BSC8
 
 import Google.Cloud.Internal.Types
@@ -33,7 +33,7 @@ uploadMedia bucket name body header = do
         "https://www.googleapis.com/upload/storage/v1/b/" <> unBucket bucket <>
         "/o?uploadType=media&name=" <>
         unName name
-    contentLength = ("Content-Length", BSC8.pack (show (BS.length body)))
+    contentLength = ("Content-Length", BSC8.pack (show (BSL.length body)))
 
 
 -- | Donwload a 'ByteString' from a 'Bucket'.

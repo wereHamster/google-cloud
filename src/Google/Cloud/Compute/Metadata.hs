@@ -8,10 +8,10 @@ import Control.Monad
 import Control.Monad.Except
 
 import Data.Char
-import Data.ByteString (ByteString, split)
-import Data.ByteString.Char8 (unpack)
-import Data.Text (Text)
-import Data.Text.Encoding
+import Data.ByteString.Lazy (ByteString, split)
+import Data.ByteString.Lazy.Char8 (unpack)
+import Data.Text.Lazy (Text)
+import Data.Text.Lazy.Encoding
 import Data.Monoid
 import Data.Time
 import Data.Aeson
