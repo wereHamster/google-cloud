@@ -38,12 +38,12 @@ uploadMedia bucket name body header = do
 
 -- | Donwload a 'ByteString' from a 'Bucket'.
 -- See https://cloud.google.com/storage/docs/json_api/v1/how-tos/performance for set `Header`
-downloadMedia :: Bucket -> Name -> [Header] -> Cloud ByteString
-downloadMedia bucket name header = do
+getMedia :: Bucket -> Name -> [Header] -> Cloud ByteString
+getMedia bucket name header = do
     authH <- authorizationHeader
     get url (authH : header)
   where
-    url = storageUrl <> "b/" <> unBucket bucket <> "/o/" <> unName name
+    url = storageUrl <> "b/" <> unBucket bucket <> "/o/" <> unName name <> "?alt=media"
 
 
 storageUrl :: String
