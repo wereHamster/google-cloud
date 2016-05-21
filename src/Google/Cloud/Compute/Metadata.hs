@@ -12,7 +12,9 @@ import Data.ByteString.Lazy (ByteString, split, toStrict)
 import Data.ByteString.Lazy.Char8 (unpack)
 import Data.Text (Text)
 import Data.Text.Encoding (decodeUtf8)
-import Network.HTTP.Types (encodePathSegments)
+import Network.HTTP.Types
+       (encodePathSegments, encodePathSegmentsRelative)
+import Blaze.ByteString.Builder (Builder)
 import Data.Monoid
 import Data.Time
 import Data.Aeson
@@ -26,31 +28,31 @@ import Prelude
 
 
 
-metadataServer :: Text
+metadataServer :: Builder
 metadataServer = "http://metadata.google.internal"
 
-projectMetadataPath :: Text
+projectMetadataPath :: Builder
 projectMetadataPath = "/computeMetadata/v1/project"
 
-instanceMetadataPath :: Text
+instanceMetadataPath :: Builder
 instanceMetadataPath = "/computeMetadata/v1/instance"
 
 
 -- | Convenience function to read a metadata value from the server. When
 -- talking to the metadata server one has to supply a @Metadata-Flavor@ header,
 -- otherwise the server refuses to communicate.
-readKey :: [Text] -> Cloud ByteString
+readKey :: Builder -> Cloud ByteString
 readKey key =
     get
-        (encodePathSegments (metadataServer : key))
+        (metadataServer <> key)
         [("Metadata-Flavor", "Google")]
 
 
 -- | Like 'getJSON' but for reading from the metadata server.
-readJSON :: (FromJSON a) => [Text] -> Cloud a
+readJSON :: (FromJSON a) => Builder -> Cloud a
 readJSON key =
     getJSON
-        (encodePathSegments (metadataServer : key))
+        (metadataServer <> key)
         [("Metadata-Flavor", "Google")]
 
 
@@ -62,7 +64,7 @@ newtype ProjectId = ProjectId { unProjectId :: Text }
 projectId :: Cloud ProjectId
 projectId =
     ProjectId . decodeUtf8 . toStrict <$>
-    readKey [projectMetadataPath, "/project-id"]
+    readKey (projectMetadataPath <> "/project-id")
 
 
 
@@ -72,7 +74,7 @@ newtype NumericProjectId = NumericProjectId { unNumericProjectId :: Integer }
 
 numericProjectId :: Cloud NumericProjectId
 numericProjectId =
-    readKey [projectMetadataPath, "/numeric-project-id"] >>=
+    readKey (projectMetadataPath <> "/numeric-project-id") >>=
     (cloudIO . return . NumericProjectId . read . unpack)
 
 
@@ -82,11 +84,13 @@ type Attribute = (ByteString, ByteString)
 
 projectAttributes :: Cloud [Attribute]
 projectAttributes = do
-    let baseKey = [projectMetadataPath, "/attributes/"]
+    let baseKey = projectMetadataPath <> "/attributes/"
     keys <- split (fromIntegral $ ord '\n') <$> readKey baseKey
     forM keys $
         \key ->
-             ((,) key) <$> readKey (baseKey <> [decodeUtf8 (toStrict key)])
+             ((,) key) <$>
+             readKey
+                 (baseKey <> encodePathSegmentsRelative [decodeUtf8 (toStrict key)])
 
 
 
@@ -97,7 +101,7 @@ newtype InstanceId = InstanceId { unInstanceId :: Integer }
 
 instanceId :: Cloud InstanceId
 instanceId =
-    readKey [instanceMetadataPath, "/id"] >>=
+    readKey (instanceMetadataPath <> "/id") >>=
     (cloudIO . return . InstanceId . read . unpack)
 
 
@@ -108,13 +112,13 @@ newtype MachineType = MachineType { unMachineType :: Text }
 machineType :: Cloud MachineType
 machineType =
     MachineType . decodeUtf8 . toStrict <$>
-    readKey [instanceMetadataPath, "/machine-type"]
+    readKey (instanceMetadataPath <> "/machine-type")
 
 
 
 -- | The internal hostname of the instance.
 internalHostname :: Cloud String
-internalHostname = unpack <$> readKey [instanceMetadataPath, "/hostname"]
+internalHostname = unpack <$> readKey (instanceMetadataPath <> "/hostname")
 
 
 -- | The instance's zone.
@@ -122,14 +126,17 @@ newtype Zone = Zone { unZone :: Text }
 
 zone :: Cloud Zone
 zone =
-    Zone . decodeUtf8 . toStrict <$> readKey [instanceMetadataPath, "/zone"]
+    Zone . decodeUtf8 . toStrict <$> readKey (instanceMetadataPath <> "/zone")
 
 
 
 -- | Fetch an access token for the given service account.
 serviceAccountToken :: Text -> Cloud Token
 serviceAccountToken acc = do
-    res <- readJSON [instanceMetadataPath, "/service-accounts/", acc, "/token"]
+    res <-
+        readJSON
+            (instanceMetadataPath <>
+             encodePathSegments ["service-accounts", acc, "token"])
     case res of
         (Object o) ->
             case (HMS.lookup "access_token" o, HMS.lookup "expires_in" o) of

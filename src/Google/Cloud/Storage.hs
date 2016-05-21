@@ -5,11 +5,13 @@ module Google.Cloud.Storage where
 
 import Control.Monad
 
+import Data.Monoid ((<>))
 import Data.Text (Text)
 import Data.Text.Encoding (encodeUtf8)
 import Data.Aeson (FromJSON)
 import Network.HTTP.Types (Header, encodePath)
 import Data.ByteString.Lazy (ByteString)
+import Blaze.ByteString.Builder (Builder)
 
 import qualified Data.ByteString as BS
 import qualified Data.ByteString.Lazy as BSL
@@ -36,10 +38,9 @@ uploadMedia bucket name body header = do
     void $ post url (contentLength : authH : header) body
   where
     url =
+        "https://www.googleapis.com/upload/storage/v1/b/" <>
         encodePath
-            [ "https://www.googleapis.com/upload/storage/v1/b/"
-            , unBucket bucket
-            , "/o"]
+            [unBucket bucket, "o"]
             [ ("uploadType", Just "media")
             , ("name", Just (encodeUtf8 (unName name)))]
     contentLength = ("Content-Length", BSC8.pack (show (BSL.length body)))
@@ -53,8 +54,9 @@ getMedia bucket name header = do
     get url (authH : header)
   where
     url =
+        storageUrl <>
         encodePath
-            [storageUrl, "b/", unBucket bucket, "/o/", unName name]
+            ["b", unBucket bucket, "o", unName name]
             [("alt", Just "media")]
 
 
@@ -68,9 +70,10 @@ list bucket prefix fields = do
     getJSON url [authH]
   where
     url =
+        storageUrl <>
         encodePath
-            [storageUrl, "b/", unBucket bucket, "/o"]
-            [("prefix", prefix), ("fields", fields)]
+             ["b", unBucket bucket, "o"]
+             [("prefix", prefix), ("fields", fields)]
 
-storageUrl :: Text
+storageUrl :: Builder
 storageUrl = "https://www.googleapis.com/storage/v1/"
