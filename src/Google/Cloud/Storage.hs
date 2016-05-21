@@ -38,7 +38,7 @@ uploadMedia bucket name body header = do
     void $ post url (contentLength : authH : header) body
   where
     url =
-        "https://www.googleapis.com/upload/storage/v1/b/" <>
+        "https://www.googleapis.com/upload/storage/v1/b" <>
         encodePath
             [unBucket bucket, "o"]
             [ ("uploadType", Just "media")
@@ -76,4 +76,4 @@ list bucket prefix fields = do
              [("prefix", prefix), ("fields", fields)]
 
 storageUrl :: Builder
-storageUrl = "https://www.googleapis.com/storage/v1/"
+storageUrl = "https://www.googleapis.com/storage/v1"
