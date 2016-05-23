@@ -48,6 +48,6 @@ main = do
 
     h <- createHandle
     evalCloud h $ do
-        uploadMedia bucket name "file body" "application/octet-stream"
+        uploadMedia bucket name "file body" [("Content-Type", "application/octet-stream")]
 
 ```

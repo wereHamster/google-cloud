@@ -1,14 +1,10 @@
 {-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE RecordWildCards   #-}
-
 module Google.Cloud.Internal.HTTP where
 
 
 import Control.Monad.Reader
 import Control.Monad.Except
 
-import Data.ByteString (ByteString)
-import Data.ByteString.Lazy (toStrict)
 
 import Data.Aeson
 
@@ -17,6 +13,11 @@ import Network.HTTP.Client
 
 import Google.Cloud.Internal.Types
 
+import Data.ByteString.Lazy (ByteString)
+import Blaze.ByteString.Builder (Builder, toByteString)
+  
+import qualified Data.ByteString.Char8 as BSC8
+
 
 
 runRequest :: Request -> Cloud ByteString
@@ -24,26 +25,26 @@ runRequest req = do
     manager <- asks hManager
     cloudIO $ do
         res <- httpLbs req manager
-        return $ toStrict $ responseBody res
+        return $ responseBody res
 
 
-post :: String -> RequestHeaders -> ByteString -> Cloud ByteString
+post :: Builder -> RequestHeaders -> ByteString -> Cloud ByteString
 post url headers body = do
     req <- cloudIO $ do
-        req <- parseUrl url
+        req <- parseUrl (builderToString url)
         return $ req
             { method         = "POST"
             , requestHeaders = headers
-            , requestBody    = RequestBodyBS body
+            , requestBody    = RequestBodyLBS body
             }
 
     runRequest req
 
 
-get :: String -> RequestHeaders -> Cloud ByteString
+get :: Builder -> RequestHeaders -> Cloud ByteString
 get url headers = do
     req <- cloudIO $ do
-        req <- parseUrl url
+        req <- parseUrl (builderToString url)
         return $ req
             { method         = "GET"
             , requestHeaders = headers
@@ -52,9 +53,13 @@ get url headers = do
     runRequest req
 
 
-getJSON :: (FromJSON a) => String -> RequestHeaders -> Cloud a
+getJSON :: (FromJSON a) => Builder -> RequestHeaders -> Cloud a
 getJSON url headers = do
     body <- get url headers
-    case eitherDecodeStrict body of
+    case eitherDecode body of
         Left e -> throwError $ DecodeError e
         Right r -> return r
+
+
+builderToString :: Builder -> String
+builderToString = BSC8.unpack . toByteString
