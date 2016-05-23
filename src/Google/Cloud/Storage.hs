@@ -14,8 +14,6 @@ import Data.ByteString.Lazy (ByteString)
 import Blaze.ByteString.Builder (Builder)
 
 import qualified Data.ByteString as BS
-import qualified Data.ByteString.Lazy as BSL
-import qualified Data.ByteString.Char8 as BSC8
 
 import Google.Cloud.Internal.Types
 import Google.Cloud.Internal.HTTP
