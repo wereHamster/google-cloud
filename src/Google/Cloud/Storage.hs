@@ -35,7 +35,7 @@ newtype Name = Name { unName :: Text }
 uploadMedia :: Bucket -> Name -> ByteString -> [Header] -> Cloud ()
 uploadMedia bucket name body header = do
     authH <- authorizationHeader
-    void $ post url (contentLength : authH : header) body
+    void $ post url (authH : header) body
   where
     url =
         "https://www.googleapis.com/upload/storage/v1/b" <>
@@ -43,7 +43,6 @@ uploadMedia bucket name body header = do
             [unBucket bucket, "o"]
             [ ("uploadType", Just "media")
             , ("name", Just (encodeUtf8 (unName name)))]
-    contentLength = ("Content-Length", BSC8.pack (show (BSL.length body)))
 
 
 -- | Donwload a 'ByteString' from a 'Bucket'.
