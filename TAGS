@@ -1,0 +1,172 @@
+
+./Setup.hs,15
+main main1,2
+
+./src/Google/Cloud/Compute/Metadata.hs,1820
+module Google.Cloud.Compute.Metadata Google.Cloud.Compute.Metadata2,3
+metadataServer metadataServer30,31
+metadataServer metadataServer31,32
+projectMetadataPath projectMetadataPath33,34
+projectMetadataPath projectMetadataPath34,35
+instanceMetadataPath instanceMetadataPath36,37
+instanceMetadataPath instanceMetadataPath37,38
+readKey readKey43,44
+readKey readKey44,45
+readJSON readJSON51,52
+readJSON readJSON52,53
+newtype ProjectId ProjectId60,61
+newtype ProjectId = ProjectId ProjectId60,61
+newtype ProjectId = ProjectId { unProjectId unProjectId60,61
+projectId projectId62,63
+projectId projectId63,64
+newtype NumericProjectId NumericProjectId71,72
+newtype NumericProjectId = NumericProjectId NumericProjectId71,72
+newtype NumericProjectId = NumericProjectId { unNumericProjectId unNumericProjectId71,72
+numericProjectId numericProjectId73,74
+numericProjectId numericProjectId74,75
+type Attribute Attribute81,82
+projectAttributes projectAttributes83,84
+projectAttributes projectAttributes84,85
+newtype InstanceId InstanceId98,99
+newtype InstanceId = InstanceId InstanceId98,99
+newtype InstanceId = InstanceId { unInstanceId unInstanceId98,99
+instanceId instanceId100,101
+instanceId instanceId101,102
+newtype MachineType MachineType108,109
+newtype MachineType = MachineType MachineType108,109
+newtype MachineType = MachineType { unMachineType unMachineType108,109
+machineType machineType110,111
+machineType machineType111,112
+internalHostname internalHostname118,119
+internalHostname internalHostname119,120
+newtype Zone Zone123,124
+newtype Zone = Zone Zone123,124
+newtype Zone = Zone { unZone unZone123,124
+zone zone125,126
+zone zone126,127
+serviceAccountToken serviceAccountToken132,133
+serviceAccountToken serviceAccountToken133,134
+
+./src/Google/Cloud/Compute/Projects.hs,952
+module Google.Cloud.Compute.Projects Google.Cloud.Compute.Projects3,4
+newtype ProjectId ProjectId18,19
+newtype ProjectId = ProjectIdProjectId18,19
+    { unProjectId unProjectId19,20
+data ProjectResource ProjectResource22,23
+data ProjectResource = ProjectResourceProjectResource22,23
+    { kind kind23,24
+    , id id24,25
+    , creationTimestamp creationTimestamp25,26
+    , name name26,27
+    , description description27,28
+    , commonInstanceMetadata commonInstanceMetadata28,29
+    , quotas quotas29,30
+    , usageExportLocation usageExportLocation30,31
+    , enabledFeatures enabledFeatures31,32
+    , selfLink selfLink32,33
+    , defaultServiceAccount defaultServiceAccount33,34
+getProject getProject38,39
+getProject getProject39,40
+setCommonInstanceMetadata setCommonInstanceMetadata46,47
+setCommonInstanceMetadata setCommonInstanceMetadata47,48
+computeUrl computeUrl64,65
+computeUrl computeUrl65,66
+
+./src/Google/Cloud/Compute/Types.hs,626
+module Google.Cloud.Compute.Types Google.Cloud.Compute.Types2,3
+data ExportLocation ExportLocation8,9
+data ExportLocation = ExportLocationExportLocation8,9
+    { bucketName bucketName9,10
+    , reportNamePrefix reportNamePrefix10,11
+data Quota Quota15,16
+data Quota = QuotaQuota15,16
+    { metric metric16,17
+    , limit limit17,18
+    , usage usage18,19
+data Metadata Metadata24,25
+data Metadata = MetadataMetadata24,25
+    { kind kind25,26
+    , fingerprint fingerprint26,27
+    , items items27,28
+data Item Item34,35
+data Item = ItemItem34,35
+    { key key35,36
+    , value value36,37
+
+./src/Google/Cloud/Internal/HTTP.hs,312
+module Google.Cloud.Internal.HTTP Google.Cloud.Internal.HTTP1,2
+runRequest runRequest22,23
+runRequest runRequest23,24
+post post30,31
+post post31,32
+get get43,44
+get get44,45
+getJSON getJSON55,56
+getJSON getJSON56,57
+builderToString builderToString63,64
+builderToString builderToString64,65
+
+./src/Google/Cloud/Internal/Token.hs,446
+module Google.Cloud.Internal.Token Google.Cloud.Internal.Token3,4
+defaultMetadataToken defaultMetadataToken28,29
+defaultMetadataToken defaultMetadataToken29,30
+cacheToken cacheToken41,42
+cacheToken cacheToken42,43
+refreshToken refreshToken54,55
+refreshToken refreshToken55,56
+accessToken accessToken67,68
+accessToken accessToken68,69
+authorizationHeader authorizationHeader86,87
+authorizationHeader authorizationHeader87,88
+
+./src/Google/Cloud/Internal/Types.hs,831
+module Google.Cloud.Internal.Types Google.Cloud.Internal.Types3,4
+data Handle Handle27,28
+data Handle = HandleHandle27,28
+    { hManager hManager28,29
+    , hToken hToken31,32
+    , hFetchToken hFetchToken36,37
+data Token Token41,42
+data Token = TokenToken41,42
+    { tokenExpiresAt tokenExpiresAt42,43
+    , tokenValue tokenValue43,44
+data ErrorError47,48
+    = UnknownError UnknownError48,49
+    | IOError IOError49,50
+    | DecodeError DecodeError50,51
+newtype Cloud Cloud55,56
+newtype Cloud a = CloudCloud55,56
+    { runCloud runCloud56,57
+instance instance60,61
+evalCloud evalCloud66,67
+evalCloud evalCloud67,68
+transformException transformException74,75
+transformException transformException75,76
+cloudIO cloudIO83,84
+cloudIO cloudIO84,85
+retry retry97,98
+retry retry98,99
+
+./src/Google/Cloud/Storage.hs,485
+module Google.Cloud.Storage Google.Cloud.Storage2,3
+type Fields Fields23,24
+newtype Bucket Bucket25,26
+newtype Bucket = Bucket Bucket25,26
+newtype Bucket = Bucket { unBucket unBucket25,26
+newtype Name Name27,28
+newtype Name = Name Name27,28
+newtype Name = Name { unName unName27,28
+uploadMedia uploadMedia32,33
+uploadMedia uploadMedia33,34
+getMedia getMedia47,48
+getMedia getMedia48,49
+list list64,65
+storageUrl storageUrl74,75
+storageUrl storageUrl75,76
+
+./src/Google/Cloud.hs,153
+module Google.CloudGoogle.Cloud0,1
+createHandle createHandle23,24
+createHandle createHandle24,25
+mkHandle mkHandle32,33
+mkHandle mkHandle33,34

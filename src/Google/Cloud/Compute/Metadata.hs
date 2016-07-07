@@ -3,28 +3,28 @@
 module Google.Cloud.Compute.Metadata where
 
 
-import Control.Applicative
-import Control.Monad
-import Control.Monad.Except
+import           Control.Applicative
+import           Control.Monad
+import           Control.Monad.Except
 
-import Data.Char
-import Data.ByteString.Lazy (ByteString, split, toStrict)
-import Data.ByteString.Lazy.Char8 (unpack)
-import Data.Text (Text)
-import Data.Text.Encoding (decodeUtf8)
-import Network.HTTP.Types
-       (encodePathSegments, encodePathSegmentsRelative)
-import Blaze.ByteString.Builder (Builder)
-import Data.Monoid
-import Data.Time
-import Data.Aeson
-import Data.Scientific
-import qualified Data.HashMap.Strict as HMS
+import           Blaze.ByteString.Builder    (Builder)
+import           Data.Aeson
+import           Data.ByteString.Lazy        (ByteString, split, toStrict)
+import           Data.ByteString.Lazy.Char8  (unpack)
+import           Data.Char
+import qualified Data.HashMap.Strict         as HMS
+import           Data.Monoid
+import           Data.Scientific
+import           Data.Text                   (Text)
+import           Data.Text.Encoding          (decodeUtf8)
+import           Data.Time
+import           Network.HTTP.Types          (encodePathSegments,
+                                              encodePathSegmentsRelative)
 
-import Google.Cloud.Internal.Types
-import Google.Cloud.Internal.HTTP
+import           Google.Cloud.Internal.HTTP
+import           Google.Cloud.Internal.Types
 
-import Prelude
+import           Prelude
 
 
 
@@ -54,7 +54,6 @@ readJSON key =
     getJSON
         (metadataServer <> key)
         [("Metadata-Flavor", "Google")]
-
 
 
 -- | The 'ProjectId' is a string which the user can freely chose when creating
