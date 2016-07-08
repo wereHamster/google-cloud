@@ -2,96 +2,93 @@
 ./Setup.hs,15
 main main1,2
 
-./src/Google/Cloud/Compute/Metadata.hs,1820
+./src/Google/Cloud/Compute/Metadata.hs,1671
 module Google.Cloud.Compute.Metadata Google.Cloud.Compute.Metadata2,3
-metadataServer metadataServer30,31
 metadataServer metadataServer31,32
-projectMetadataPath projectMetadataPath33,34
+metadataServer metadataServer32,33
 projectMetadataPath projectMetadataPath34,35
-instanceMetadataPath instanceMetadataPath36,37
+projectMetadataPath projectMetadataPath35,36
 instanceMetadataPath instanceMetadataPath37,38
-readKey readKey43,44
+instanceMetadataPath instanceMetadataPath38,39
 readKey readKey44,45
-readJSON readJSON51,52
+readKey readKey45,46
 readJSON readJSON52,53
-newtype ProjectId ProjectId60,61
-newtype ProjectId = ProjectId ProjectId60,61
-newtype ProjectId = ProjectId { unProjectId unProjectId60,61
-projectId projectId62,63
-projectId projectId63,64
-newtype NumericProjectId NumericProjectId71,72
-newtype NumericProjectId = NumericProjectId NumericProjectId71,72
-newtype NumericProjectId = NumericProjectId { unNumericProjectId unNumericProjectId71,72
-numericProjectId numericProjectId73,74
-numericProjectId numericProjectId74,75
-type Attribute Attribute81,82
-projectAttributes projectAttributes83,84
-projectAttributes projectAttributes84,85
-newtype InstanceId InstanceId98,99
-newtype InstanceId = InstanceId InstanceId98,99
-newtype InstanceId = InstanceId { unInstanceId unInstanceId98,99
-instanceId instanceId100,101
-instanceId instanceId101,102
-newtype MachineType MachineType108,109
-newtype MachineType = MachineType MachineType108,109
-newtype MachineType = MachineType { unMachineType unMachineType108,109
-machineType machineType110,111
-machineType machineType111,112
-internalHostname internalHostname118,119
-internalHostname internalHostname119,120
-newtype Zone Zone123,124
-newtype Zone = Zone Zone123,124
-newtype Zone = Zone { unZone unZone123,124
-zone zone125,126
-zone zone126,127
-serviceAccountToken serviceAccountToken132,133
-serviceAccountToken serviceAccountToken133,134
+readJSON readJSON53,54
+projectId projectId59,60
+projectId projectId60,61
+newtype NumericProjectId NumericProjectId68,69
+newtype NumericProjectId = NumericProjectId NumericProjectId68,69
+newtype NumericProjectId = NumericProjectId { unNumericProjectId unNumericProjectId68,69
+numericProjectId numericProjectId70,71
+numericProjectId numericProjectId71,72
+type Attribute Attribute78,79
+projectAttributes projectAttributes80,81
+projectAttributes projectAttributes81,82
+newtype InstanceId InstanceId95,96
+newtype InstanceId = InstanceId InstanceId95,96
+newtype InstanceId = InstanceId { unInstanceId unInstanceId95,96
+instanceId instanceId97,98
+instanceId instanceId98,99
+newtype MachineType MachineType105,106
+newtype MachineType = MachineType MachineType105,106
+newtype MachineType = MachineType { unMachineType unMachineType105,106
+machineType machineType107,108
+machineType machineType108,109
+internalHostname internalHostname115,116
+internalHostname internalHostname116,117
+newtype Zone Zone120,121
+newtype Zone = Zone Zone120,121
+newtype Zone = Zone { unZone unZone120,121
+zone zone122,123
+zone zone123,124
+serviceAccountToken serviceAccountToken129,130
+serviceAccountToken serviceAccountToken130,131
 
-./src/Google/Cloud/Compute/Projects.hs,952
+./src/Google/Cloud/Compute/Projects.hs,834
 module Google.Cloud.Compute.Projects Google.Cloud.Compute.Projects3,4
-newtype ProjectId ProjectId18,19
-newtype ProjectId = ProjectIdProjectId18,19
-    { unProjectId unProjectId19,20
-data ProjectResource ProjectResource22,23
-data ProjectResource = ProjectResourceProjectResource22,23
-    { kind kind23,24
-    , id id24,25
-    , creationTimestamp creationTimestamp25,26
-    , name name26,27
-    , description description27,28
-    , commonInstanceMetadata commonInstanceMetadata28,29
-    , quotas quotas29,30
-    , usageExportLocation usageExportLocation30,31
-    , enabledFeatures enabledFeatures31,32
-    , selfLink selfLink32,33
-    , defaultServiceAccount defaultServiceAccount33,34
-getProject getProject38,39
-getProject getProject39,40
-setCommonInstanceMetadata setCommonInstanceMetadata46,47
-setCommonInstanceMetadata setCommonInstanceMetadata47,48
-computeUrl computeUrl64,65
-computeUrl computeUrl65,66
+data ProjectResource ProjectResource18,19
+data ProjectResource = ProjectResourceProjectResource18,19
+    { kind kind19,20
+    , id id20,21
+    , creationTimestamp creationTimestamp21,22
+    , name name22,23
+    , description description23,24
+    , commonInstanceMetadata commonInstanceMetadata24,25
+    , quotas quotas25,26
+    , usageExportLocation usageExportLocation26,27
+    , enabledFeatures enabledFeatures27,28
+    , selfLink selfLink28,29
+    , defaultServiceAccount defaultServiceAccount29,30
+getProject getProject34,35
+getProject getProject35,36
+setCommonInstanceMetadata setCommonInstanceMetadata42,43
+setCommonInstanceMetadata setCommonInstanceMetadata43,44
+computeUrl computeUrl60,61
+computeUrl computeUrl61,62
 
-./src/Google/Cloud/Compute/Types.hs,626
+./src/Google/Cloud/Compute/Types.hs,776
 module Google.Cloud.Compute.Types Google.Cloud.Compute.Types2,3
-data ExportLocation ExportLocation8,9
-data ExportLocation = ExportLocationExportLocation8,9
-    { bucketName bucketName9,10
-    , reportNamePrefix reportNamePrefix10,11
-data Quota Quota15,16
-data Quota = QuotaQuota15,16
-    { metric metric16,17
-    , limit limit17,18
-    , usage usage18,19
-data Metadata Metadata24,25
-data Metadata = MetadataMetadata24,25
-    { kind kind25,26
-    , fingerprint fingerprint26,27
-    , items items27,28
-data Item Item34,35
-data Item = ItemItem34,35
-    { key key35,36
-    , value value36,37
+newtype ProjectId ProjectId10,11
+newtype ProjectId = ProjectId ProjectId10,11
+newtype ProjectId = ProjectId { unProjectId unProjectId10,11
+data ExportLocation ExportLocation13,14
+data ExportLocation = ExportLocationExportLocation13,14
+    { bucketName bucketName14,15
+    , reportNamePrefix reportNamePrefix15,16
+data Quota Quota20,21
+data Quota = QuotaQuota20,21
+    { metric metric21,22
+    , limit limit22,23
+    , usage usage23,24
+data Metadata Metadata29,30
+data Metadata = MetadataMetadata29,30
+    { kind kind30,31
+    , fingerprint fingerprint31,32
+    , items items32,33
+data Item Item39,40
+data Item = ItemItem39,40
+    { key key40,41
+    , value value41,42
 
 ./src/Google/Cloud/Internal/HTTP.hs,312
 module Google.Cloud.Internal.HTTP Google.Cloud.Internal.HTTP1,2

@@ -21,6 +21,7 @@ import           Data.Time
 import           Network.HTTP.Types          (encodePathSegments,
                                               encodePathSegmentsRelative)
 
+import           Google.Cloud.Compute.Types
 import           Google.Cloud.Internal.HTTP
 import           Google.Cloud.Internal.Types
 
@@ -55,10 +56,6 @@ readJSON key =
         (metadataServer <> key)
         [("Metadata-Flavor", "Google")]
 
-
--- | The 'ProjectId' is a string which the user can freely chose when creating
--- a new project in the Google cloud. It is globally unique.
-newtype ProjectId = ProjectId { unProjectId :: Text }
 
 projectId :: Cloud ProjectId
 projectId =

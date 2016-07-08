@@ -6,6 +6,11 @@ import           Data.Aeson   (FromJSON, ToJSON)
 import           Data.Text    (Text)
 import           GHC.Generics (Generic)
 
+-- | The 'ProjectId' is a string which the user can freely chose when creating
+-- a new project in the Google cloud. It is globally unique.
+newtype ProjectId = ProjectId { unProjectId :: Text }
+
+
 data ExportLocation = ExportLocation
     { bucketName       :: Text
     , reportNamePrefix :: Text

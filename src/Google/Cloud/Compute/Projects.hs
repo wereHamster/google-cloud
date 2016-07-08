@@ -16,10 +16,6 @@ import           Google.Cloud.Internal.HTTP
 import           Google.Cloud.Internal.Token
 import           Google.Cloud.Internal.Types
 
-newtype ProjectId = ProjectId
-    { unProjectId :: Text
-    }
-
 data ProjectResource = ProjectResource
     { kind                   :: Text
     , id                     :: Int
