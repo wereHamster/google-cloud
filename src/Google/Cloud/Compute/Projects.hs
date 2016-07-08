@@ -18,7 +18,6 @@ import           Google.Cloud.Internal.Types
 
 data ProjectResource = ProjectResource
     { kind                   :: Text
-    , id                     :: Int
     , creationTimestamp      :: Text
     , name                   :: Text
     , description            :: Text
