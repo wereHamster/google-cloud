@@ -33,6 +33,7 @@ library
    , Google.Cloud.Storage
    , Google.Cloud.Compute.Metadata
    , Google.Cloud.Compute.Projects
+   , Google.Cloud.Compute.Types
 
   ghc-options: -Wall
 

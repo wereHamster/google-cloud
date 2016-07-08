@@ -18,10 +18,10 @@ import           Data.Scientific
 import           Data.Text                   (Text)
 import           Data.Text.Encoding          (decodeUtf8)
 import           Data.Time
+import           Google.Cloud.Compute.Types  (ProjectId (..))
 import           Network.HTTP.Types          (encodePathSegments,
                                               encodePathSegmentsRelative)
 
-import           Google.Cloud.Compute.Types
 import           Google.Cloud.Internal.HTTP
 import           Google.Cloud.Internal.Types
 
