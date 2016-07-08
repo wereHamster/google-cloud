@@ -59,4 +59,4 @@ setCommonInstanceMetadata projectId itms = do
                  itms)
 
 computeUrl :: Builder
-computeUrl = "https://www.googleapis.com/compute/beta/"
+computeUrl = "https://www.googleapis.com/compute/beta"
