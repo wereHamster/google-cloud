@@ -54,12 +54,12 @@ data Error = Error
 instance FromJSON Error
 instance ToJSON Error
 
-data Result
-    = Success { user       :: Text
-              , status     :: Text
-              , insertTime :: Text}
-    | Errors { errors :: [Error]}
-    deriving ((Generic))
+data Result = Result
+    { user :: Maybe Text
+    , status :: Maybe Text
+    , insertTime :: Maybe Text
+    , errors :: Maybe [Error]
+    } deriving (Generic)
 
 instance FromJSON Result
 instance ToJSON Result
