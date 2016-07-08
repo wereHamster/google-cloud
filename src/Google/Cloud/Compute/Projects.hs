@@ -20,11 +20,8 @@ data ProjectResource = ProjectResource
     { kind                   :: Text
     , creationTimestamp      :: Text
     , name                   :: Text
-    , description            :: Text
     , commonInstanceMetadata :: Metadata
     , quotas                 :: [Quota]
-    , usageExportLocation    :: ExportLocation
-    , enabledFeatures        :: [Text]
     , selfLink               :: Text
     , defaultServiceAccount  :: Text
     } deriving (Generic)
