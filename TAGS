@@ -44,29 +44,25 @@ zone zone123,124
 serviceAccountToken serviceAccountToken129,130
 serviceAccountToken serviceAccountToken130,131
 
-./src/Google/Cloud/Compute/Projects.hs,834
+./src/Google/Cloud/Compute/Projects.hs,680
 module Google.Cloud.Compute.Projects Google.Cloud.Compute.Projects3,4
 data ProjectResource ProjectResource18,19
 data ProjectResource = ProjectResourceProjectResource18,19
     { kind kind19,20
-    , id id20,21
-    , creationTimestamp creationTimestamp21,22
-    , name name22,23
-    , description description23,24
-    , commonInstanceMetadata commonInstanceMetadata24,25
-    , quotas quotas25,26
-    , usageExportLocation usageExportLocation26,27
-    , enabledFeatures enabledFeatures27,28
-    , selfLink selfLink28,29
-    , defaultServiceAccount defaultServiceAccount29,30
-getProject getProject34,35
-getProject getProject35,36
-setCommonInstanceMetadata setCommonInstanceMetadata42,43
-setCommonInstanceMetadata setCommonInstanceMetadata43,44
-computeUrl computeUrl60,61
-computeUrl computeUrl61,62
+    , creationTimestamp creationTimestamp20,21
+    , name name21,22
+    , commonInstanceMetadata commonInstanceMetadata22,23
+    , quotas quotas23,24
+    , selfLink selfLink24,25
+    , defaultServiceAccount defaultServiceAccount25,26
+getProject getProject30,31
+getProject getProject31,32
+setCommonInstanceMetadata setCommonInstanceMetadata38,39
+setCommonInstanceMetadata setCommonInstanceMetadata39,40
+computeUrl computeUrl56,57
+computeUrl computeUrl57,58
 
-./src/Google/Cloud/Compute/Types.hs,776
+./src/Google/Cloud/Compute/Types.hs,753
 module Google.Cloud.Compute.Types Google.Cloud.Compute.Types2,3
 newtype ProjectId ProjectId10,11
 newtype ProjectId = ProjectId ProjectId10,11
@@ -82,13 +78,12 @@ data Quota = QuotaQuota20,21
     , usage usage23,24
 data Metadata Metadata29,30
 data Metadata = MetadataMetadata29,30
-    { kind kind30,31
-    , fingerprint fingerprint31,32
-    , items items32,33
-data Item Item39,40
-data Item = ItemItem39,40
-    { key key40,41
-    , value value41,42
+    { fingerprint fingerprint30,31
+    , items items31,32
+data Item Item38,39
+data Item = ItemItem38,39
+    { key key39,40
+    , value value40,41
 
 ./src/Google/Cloud/Internal/HTTP.hs,312
 module Google.Cloud.Internal.HTTP Google.Cloud.Internal.HTTP1,2

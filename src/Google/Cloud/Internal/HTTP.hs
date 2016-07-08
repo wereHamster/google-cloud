@@ -2,21 +2,21 @@
 module Google.Cloud.Internal.HTTP where
 
 
-import Control.Monad.Reader
-import Control.Monad.Except
+import           Control.Monad.Except
+import           Control.Monad.Reader
 
 
-import Data.Aeson
+import           Data.Aeson
 
-import Network.HTTP.Types.Header
-import Network.HTTP.Client
+import           Network.HTTP.Client
+import           Network.HTTP.Types.Header
 
-import Google.Cloud.Internal.Types
+import           Google.Cloud.Internal.Types
 
-import Data.ByteString.Lazy (ByteString)
-import Blaze.ByteString.Builder (Builder, toByteString)
-  
-import qualified Data.ByteString.Char8 as BSC8
+import           Blaze.ByteString.Builder    (Builder, toByteString)
+import           Data.ByteString.Lazy        (ByteString)
+
+import qualified Data.ByteString.Char8       as BSC8
 
 
 
@@ -34,7 +34,7 @@ post url headers body = do
         req <- parseUrl (builderToString url)
         return $ req
             { method         = "POST"
-            , requestHeaders = headers
+            , requestHeaders = (requestHeaders req ++ headers)
             , requestBody    = RequestBodyLBS body
             }
 
@@ -47,7 +47,7 @@ get url headers = do
         req <- parseUrl (builderToString url)
         return $ req
             { method         = "GET"
-            , requestHeaders = headers
+            , requestHeaders = (requestHeaders req ++ headers)
             }
 
     runRequest req

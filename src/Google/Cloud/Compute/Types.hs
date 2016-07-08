@@ -28,8 +28,7 @@ instance FromJSON Quota
 
 
 data Metadata = Metadata
-    { kind        :: Text
-    , fingerprint :: Text
+    { fingerprint :: Text
     , items       :: [Item]
     } deriving Generic
 

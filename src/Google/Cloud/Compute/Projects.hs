@@ -50,9 +50,9 @@ setCommonInstanceMetadata projectId itms = do
     body pr =
         encode
             (Metadata
-                 "compute#metadata"
-                 (fingerprint (commonInstanceMetadata pr))
-                 (items (commonInstanceMetadata pr) ++ itms))
+             { fingerprint = (fingerprint (commonInstanceMetadata pr))
+             , items = itms
+             })
 
 computeUrl :: Builder
 computeUrl = "https://www.googleapis.com/compute/beta"
