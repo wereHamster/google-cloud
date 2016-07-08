@@ -59,10 +59,10 @@ getProject getProject30,31
 getProject getProject31,32
 setCommonInstanceMetadata setCommonInstanceMetadata38,39
 setCommonInstanceMetadata setCommonInstanceMetadata39,40
-computeUrl computeUrl56,57
-computeUrl computeUrl57,58
+computeUrl computeUrl58,59
+computeUrl computeUrl59,60
 
-./src/Google/Cloud/Compute/Types.hs,753
+./src/Google/Cloud/Compute/Types.hs,1115
 module Google.Cloud.Compute.Types Google.Cloud.Compute.Types2,3
 newtype ProjectId ProjectId10,11
 newtype ProjectId = ProjectId ProjectId10,11
@@ -78,12 +78,24 @@ data Quota = QuotaQuota20,21
     , usage usage23,24
 data Metadata Metadata29,30
 data Metadata = MetadataMetadata29,30
-    { fingerprint fingerprint30,31
-    , items items31,32
-data Item Item38,39
-data Item = ItemItem38,39
-    { key key39,40
-    , value value40,41
+    { kind kind30,31
+    , fingerprint fingerprint31,32
+    , items items32,33
+data Item Item39,40
+data Item = ItemItem39,40
+    { key key40,41
+    , value value41,42
+data Error Error48,49
+data Error = ErrorError48,49
+    { code code49,50
+    , message message50,51
+data ResultResult56,57
+    = Success Success57,58
+    = Success { user user57,58
+              , status status58,59
+              , insertTime insertTime59,60
+    | Errors Errors60,61
+    | Errors { errors errors60,61
 
 ./src/Google/Cloud/Internal/HTTP.hs,312
 module Google.Cloud.Internal.HTTP Google.Cloud.Internal.HTTP1,2

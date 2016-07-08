@@ -28,7 +28,8 @@ instance FromJSON Quota
 
 
 data Metadata = Metadata
-    { fingerprint :: Text
+    { kind        :: Text
+    , fingerprint :: Text
     , items       :: [Item]
     } deriving Generic
 
@@ -43,3 +44,22 @@ data Item = Item
 
 instance FromJSON Item
 instance ToJSON Item
+
+
+data Error = Error
+    { code    :: Text
+    , message :: Text
+    } deriving (Generic)
+
+instance FromJSON Error
+instance ToJSON Error
+
+data Result
+    = Success { user       :: Text
+              , status     :: Text
+              , insertTime :: Text}
+    | Errors { errors :: [Error]}
+    deriving ((Generic))
+
+instance FromJSON Result
+instance ToJSON Result
