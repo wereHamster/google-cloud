@@ -24,6 +24,7 @@ runRequest :: Request -> Cloud ByteString
 runRequest req = do
     manager <- asks hManager
     cloudIO $ do
+        _ <- print req
         res <- httpLbs req manager
         return $ responseBody res
 
