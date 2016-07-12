@@ -24,7 +24,6 @@ runRequest :: Request -> Cloud ByteString
 runRequest req = do
     manager <- asks hManager
     cloudIO $ do
-        _ <- print req
         res <- httpLbs req manager
         return $ responseBody res
 
@@ -61,6 +60,9 @@ getJSON url headers = do
         Left e -> throwError $ DecodeError e
         Right r -> return r
 
+postJSON :: (ToJSON a) => Builder -> RequestHeaders -> a -> Cloud ByteString
+postJSON url headers body =
+    post url (("Content-Type", "application/json") : headers) (encode body)
 
 builderToString :: Builder -> String
 builderToString = BSC8.unpack . toByteString

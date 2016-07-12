@@ -5,7 +5,7 @@ module Google.Cloud.Compute.Projects where
 
 import           Blaze.ByteString.Builder    (Builder)
 import           Control.Monad.Except        (MonadError (..))
-import           Data.Aeson                  (FromJSON, eitherDecode, encode)
+import           Data.Aeson                  (FromJSON, eitherDecode)
 import           Data.Monoid                 ((<>))
 import           Data.Text                   (Text)
 import           GHC.Generics                (Generic)
@@ -40,9 +40,11 @@ setCommonInstanceMetadata :: ProjectId -> [Item] -> Cloud Result
 setCommonInstanceMetadata projectId itms = do
     authH <- authorizationHeader
     pr <- getProject projectId
-    post url [authH] (body pr) >>= \res -> case eitherDecode res of
-                                             Left err -> throwError (DecodeError err)
-                                             Right res' -> return res'
+    postJSON url [authH] (body pr) >>=
+        \res ->
+             case eitherDecode res of
+                 Left err -> throwError (DecodeError err)
+                 Right res' -> return res'
   where
     url =
         computeUrl <>
@@ -50,11 +52,10 @@ setCommonInstanceMetadata projectId itms = do
             ["projects", unProjectId projectId, "setCommonInstanceMetadata"]
             []
     body pr =
-        encode
-            (Metadata
-                 "compute#metadata"
-                 (fingerprint (commonInstanceMetadata pr))
-                 itms)
+        (Metadata
+             "compute#metadata"
+             (fingerprint (commonInstanceMetadata pr))
+             itms)
 
 computeUrl :: Builder
 computeUrl = "https://www.googleapis.com/compute/beta"
