@@ -55,7 +55,7 @@ setCommonInstanceMetadata projectId itms = do
         (Metadata
              "compute#metadata"
              (fingerprint (commonInstanceMetadata pr))
-             itms)
+             (items (commonInstanceMetadata pr) ++ itms))
 
 computeUrl :: Builder
 computeUrl = "https://www.googleapis.com/compute/beta"
