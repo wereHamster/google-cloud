@@ -55,10 +55,11 @@ instance FromJSON Error
 instance ToJSON Error
 
 data Result = Result
-    { user :: Maybe Text
-    , status :: Maybe Text
+    { user       :: Maybe Text
+    , status     :: Maybe Text
     , insertTime :: Maybe Text
-    , errors :: Maybe [Error]
+    , errors     :: Maybe [Error]
+    , selfLink   :: Maybe Text
     } deriving (Generic)
 
 instance FromJSON Result
