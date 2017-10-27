@@ -50,7 +50,7 @@ import Google.Cloud.Storage (Bucket(..), Name(..), uploadFile)
 main :: IO ()
 main = do
     let bucket = Bucket "test-bucket-123"
-        gdir   = GCSObjDir "data_2017/"
+        gdir   = GCSObjDir "data_2017"
 	fname  = "/temp/file1.tar.gz" 
 
     h <- createHandle
