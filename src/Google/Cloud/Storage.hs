@@ -22,7 +22,7 @@ import System.FilePath.Posix
 newtype Bucket = Bucket { unBucket :: String } deriving (Eq, Show)
 
 -- | Directory of the stored object on GCS
-newtype GCSObjDir = GCSObjName { gcsObjDir :: String } deriving (Eq, Show)
+newtype GCSObjDir = GCSObjDir { gcsObjDir :: String } deriving (Eq, Show)
 
 
 -- | Upload a file to a GCS 'Bucket'. 
