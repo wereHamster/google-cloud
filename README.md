@@ -1,3 +1,7 @@
+[![Hackage](https://img.shields.io/hackage/v/google-cloud.svg)](https://hackage.haskell.org/package/google-cloud)  [![Build Status](https://travis-ci.org/wereHamster/google-cloud.png)](https://travis-ci.org/wereHamster/google-cloud)
+[![plot-light](http://stackage.org/package/google-cloud/badge/lts)](http://stackage.org/lts/package/google-cloud)
+[![plot-light](http://stackage.org/package/google-cloud/badge/nightly)](http://stackage.org/nightly/package/google-cloud)
+
 ## Haskell library to access Google Cloud APIs
 
 The library is incomplete. I only implemented the functions which I need
@@ -51,3 +55,9 @@ main = do
         uploadMedia bucket name "file body" "application/octet-stream"
 
 ```
+
+
+
+### Contributors
+
+Marco Zocca (@ocramz)

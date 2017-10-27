@@ -12,8 +12,6 @@ import Control.Concurrent.STM
 import Control.Monad.Reader
 import Control.Monad.Except
 
-import Control.Applicative
-
 import Data.Time
 import Data.Text (Text)
 import qualified Data.Text as T

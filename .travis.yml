@@ -3,10 +3,23 @@ env:
  - CABALVER=1.18 GHCVER=7.8.4
  - CABALVER=1.22 GHCVER=7.10.1
  - CABALVER=head GHCVER=head
+ - ARGS="--resolver lts-5"
+ - ARGS="--resolver lts-6"
+ - ARGS="--resolver lts-7"
+ - ARGS="--resolver lts-8"
+ - ARGS="--resolver lts-9"
+ - ARGS="--resolver lts"
+ - ARGS="--resolver nightly"
 
 matrix:
  allow_failures:
   - env: CABALVER=head GHCVER=head
+
+before_install:
+# Download and unpack the stack executable
+ - mkdir -p ~/.local/bin
+ - export PATH=$HOME/.local/bin:$PATH
+ - travis_retry curl -L https://www.stackage.org/stack/linux-x86_64 | tar xz --wildcards --strip-components=1 -C ~/.local/bin '*/stack'
 
 install:
  - travis_retry sudo add-apt-repository -y ppa:hvr/ghc
@@ -20,3 +33,9 @@ install:
 
 script:
  - script/cibuild
+ - stack $ARGS --no-terminal --install-ghc test --haddock
+
+
+cache:
+  directories:
+  - $HOME/.stack
