@@ -43,16 +43,17 @@ This code uploads a `ByteString` into a Google Cloud Storage bucket.
 {-# LANGUAGE OverloadedStrings #-}
 
 import Google.Cloud         (newHandle, evalCloud)
-import Google.Cloud.Storage (Bucket(..), Name(..), uploadMedia)
+import Google.Cloud.Storage (Bucket(..), Name(..), uploadFile)
 
 main :: IO ()
 main = do
     let bucket = Bucket "test-bucket-123"
-        name   = Name "file/name.txt"
+        gdir   = GCSObjDir "files/"
+	fname  = "/temp/file1.tar.gz" 
 
     h <- createHandle
     evalCloud h $ do
-        uploadMedia bucket name "file body" "application/octet-stream"
+        uploadFile bucket gdir fname Nothing
 
 ```
 

@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module Google.Cloud.Storage (uploadFile, downloadFile, Bucket(..)) where
+module Google.Cloud.Storage (uploadFile, downloadFile, Bucket(..), GCSObjDir(..)) where
 
 import Control.Monad
 import Control.Monad.Trans (liftIO)
@@ -18,24 +18,27 @@ import Google.Cloud.Internal.Token
 
 import System.FilePath.Posix
 
+-- | Name of the GCS bucket
 newtype Bucket = Bucket { unBucket :: String } deriving (Eq, Show)
 
+-- | Directory of the stored object on GCS
+newtype GCSObjDir = GCSObjName { gcsObjDir :: String } deriving (Eq, Show)
 
 
 -- | Upload a file to a GCS 'Bucket'. 
 uploadFile ::
      Bucket       -- ^ Bucket name on GCS (e.g. `data-store-2017`)
-  -> String       -- ^ Directory name on GCS (e.g. `foo/bar`; NB: no trailing /)
+  -> GCSObjDir       -- ^ Directory name on GCS (e.g. `foo/bar`; NB: no trailing /)
   -> FilePath     -- ^ Absolute path of the file to be uploaded
   -> Maybe String -- ^ Optional filename for the uploaded file; if `Nothing`, it defaults to the name on the local host 
   -> Cloud ()
-uploadFile bucket gcsDir fname newname = do
+uploadFile bucket gd fname newname = do
     let contentType = mkMimeType fname
     body <- liftIO $ BS.readFile fname
     authH <- authorizationHeader
     void $ post uri [("Content-Type", contentType), authH] body
   where
-    gcsName = mkStorageName fname gcsDir newname
+    gcsName = mkStorageName fname (gcsObjDir gd) newname
     uri = "https://www.googleapis.com/upload/storage/v1/b/" <> unBucket bucket <> "/o?uploadType=media&name=" <> gcsName
 
 
