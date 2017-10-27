@@ -1,3 +1,7 @@
+[![Hackage](https://img.shields.io/hackage/v/google-cloud.svg)](https://hackage.haskell.org/package/google-cloud)  [![Build Status](https://travis-ci.org/wereHamster/google-cloud.png)](https://travis-ci.org/wereHamster/google-cloud)
+[![plot-light](http://stackage.org/package/google-cloud/badge/lts)](http://stackage.org/lts/package/google-cloud)
+[![plot-light](http://stackage.org/package/google-cloud/badge/nightly)](http://stackage.org/nightly/package/google-cloud)
+
 ## Haskell library to access Google Cloud APIs
 
 The library is incomplete. I only implemented the functions which I need
@@ -33,21 +37,30 @@ customize the handle (`mkHandle`).
 
 #### Example
 
-This code uploads a `ByteString` into a Google Cloud Storage bucket.
+The following code uploads a file onto a Google Cloud Storage bucket.
+
+In particular, it will upload the contents of `/temp/file1.tar.gz` and create a file called `data_2017/file1.tar.gz` in the bucket `test-bucket-123` (assuming the user has write credentials for it).
 
 ```haskell
 {-# LANGUAGE OverloadedStrings #-}
 
 import Google.Cloud         (newHandle, evalCloud)
-import Google.Cloud.Storage (Bucket(..), Name(..), uploadMedia)
+import Google.Cloud.Storage (Bucket(..), Name(..), uploadFile)
 
 main :: IO ()
 main = do
     let bucket = Bucket "test-bucket-123"
-        name   = Name "file/name.txt"
+        gdir   = GCSObjDir "data_2017"
+	fname  = "/temp/file1.tar.gz" 
 
     h <- createHandle
     evalCloud h $ do
-        uploadMedia bucket name "file body" "application/octet-stream"
+        uploadFile bucket gdir fname Nothing
 
 ```
+
+
+
+### Contributors
+
+Marco Zocca (@ocramz)

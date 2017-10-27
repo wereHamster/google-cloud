@@ -30,7 +30,7 @@ runRequest req = do
 post :: String -> RequestHeaders -> ByteString -> Cloud ByteString
 post url headers body = do
     req <- cloudIO $ do
-        req <- parseUrl url
+        req <- parseUrlThrow url
         return $ req
             { method         = "POST"
             , requestHeaders = headers
@@ -43,7 +43,7 @@ post url headers body = do
 get :: String -> RequestHeaders -> Cloud ByteString
 get url headers = do
     req <- cloudIO $ do
-        req <- parseUrl url
+        req <- parseUrlThrow url
         return $ req
             { method         = "GET"
             , requestHeaders = headers
@@ -52,7 +52,7 @@ get url headers = do
     runRequest req
 
 
-getJSON :: (FromJSON a) => String -> RequestHeaders -> Cloud a
+getJSON :: FromJSON a => String -> RequestHeaders -> Cloud a
 getJSON url headers = do
     body <- get url headers
     case eitherDecodeStrict body of
