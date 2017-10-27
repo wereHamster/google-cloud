@@ -39,7 +39,7 @@ customize the handle (`mkHandle`).
 
 The following code uploads a file onto a Google Cloud Storage bucket.
 
-In particular, it will upload the contents`/temp/file1.tar.gz` and create a file called `data_2017/file1.tar.gz` in the bucket `test-bucket-123` (assuming the user has write credentials for it).
+In particular, it will upload the contents of `/temp/file1.tar.gz` and create a file called `data_2017/file1.tar.gz` in the bucket `test-bucket-123` (assuming the user has write credentials for it).
 
 ```haskell
 {-# LANGUAGE OverloadedStrings #-}
