@@ -37,7 +37,9 @@ customize the handle (`mkHandle`).
 
 #### Example
 
-This code uploads a `ByteString` into a Google Cloud Storage bucket.
+The following code uploads a file onto a Google Cloud Storage bucket.
+
+In particular, it will create a file called `data_2017/file1.tar.gz` in the bucket `test-bucket-123` (assuming the user has write credentials for it).
 
 ```haskell
 {-# LANGUAGE OverloadedStrings #-}
@@ -48,7 +50,7 @@ import Google.Cloud.Storage (Bucket(..), Name(..), uploadFile)
 main :: IO ()
 main = do
     let bucket = Bucket "test-bucket-123"
-        gdir   = GCSObjDir "files/"
+        gdir   = GCSObjDir "data_2017/"
 	fname  = "/temp/file1.tar.gz" 
 
     h <- createHandle
