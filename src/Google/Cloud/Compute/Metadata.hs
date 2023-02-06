@@ -15,8 +15,8 @@ import Data.Text.Encoding
 import Data.Monoid
 import Data.Time
 import Data.Aeson
+import Data.Aeson.KeyMap
 import Data.Scientific
-import qualified Data.HashMap.Strict as HMS
 
 import Google.Cloud.Internal.Types
 import Google.Cloud.Internal.HTTP
@@ -117,7 +117,7 @@ serviceAccountToken :: String -> Cloud Token
 serviceAccountToken acc = do
     res <- readJSON (instanceMetadataPath ++ "/service-account/" ++ acc ++ "/token")
     case res of
-        (Object o) -> case (HMS.lookup "access_token" o, HMS.lookup "expires_in" o) of
+        (Object o) -> case (Data.Aeson.KeyMap.lookup "access_token" o, Data.Aeson.KeyMap.lookup "expires_in" o) of
             (Just (String value), Just (Number expiresIn)) -> do
                 case toBoundedInteger expiresIn :: Maybe Int of
                     Nothing -> throwError $ UnknownError "fetchToken: Bad expiration time"
@@ -125,4 +125,4 @@ serviceAccountToken acc = do
                         now <- cloudIO $ getCurrentTime
                         return $ Token (addUTCTime (fromIntegral i) now) value
             _ -> throwError $ UnknownError "fetchToken: Could not decode response"
-        _ -> throwError $ UnknownError "fetchToken: Bad resposnse"
+        _ -> throwError $ UnknownError "fetchToken: Bad response"
