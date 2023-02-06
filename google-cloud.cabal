@@ -12,7 +12,7 @@ maintainer:          tomas.carnecky@gmail.com
 
 build-type:          Simple
 cabal-version:       >=1.10
-
+tested-with:         GHC == 8.0.2
 category:            Google
 
 
@@ -36,16 +36,19 @@ library
   ghc-options: -Wall
 
   build-depends:
-     base >=4.4
-   , time
-   , bytestring
-   , text
-   , mtl >=2.2.1
-   , stm
-   , random
-   , http-types
-   , http-client
-   , http-client-tls
-   , scientific
-   , aeson
-   , unordered-containers
+                base >=4.4
+              , filepath
+              , time
+              , bytestring
+              , text
+              , mtl >=2.2.1
+              , stm
+              , random
+              , http-types
+              , http-client
+              , http-client-tls
+              , mime-types 
+              , scientific
+              , aeson
+              , unordered-containers
+              , retry 
